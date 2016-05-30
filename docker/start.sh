@@ -7,7 +7,7 @@ EXTRA_PARAMS=""
 DEFAULT_BITCOIN_URL="http://rpc:rpc@bitcoin:8332"
 if [ -n "$TESTNET" ]; then
     EXTRA_PARAMS="${EXTRA_PARAMS} --testnet"
-    DEFAULT_BITCOIN_URL="http://rpc:rpc@bitcoin:18332"
+    DEFAULT_BITCOIN_URL="http://rpc:rpc@bitcoin-testnet:18332"
 fi
 
 : ${BITCOIND_URL:=$DEFAULT_BITCOIN_URL}
