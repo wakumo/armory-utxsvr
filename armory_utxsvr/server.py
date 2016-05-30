@@ -1,6 +1,8 @@
-#! /usr/bin/env python3
+#! /usr/bin/env python2
 """
 server for creating unsigned armory offline transactions
+
+NOTE: this is still python2 because armoryengine is python2
 """
 import os
 import sys
@@ -9,19 +11,18 @@ import argparse
 import json
 import time
 import threading
-import requests
 import datetime
 
+import requests
 import flask
 from flask import request
 import jsonrpc
 from jsonrpc import dispatcher
 
+from armory_utxsvr import config
+
 sys.path.append("/usr/lib/armory/")
 from armoryengine.ALL import *
-
-ARMORY_UTXSVR_PORT_MAINNET = 6590
-ARMORY_UTXSVR_PORT_TESTNET = 6591
 
 BITCOIND_PATH = os.environ.get('BITCOIND_PATH', "/root/.bitcoin/")
 
@@ -110,7 +111,7 @@ def handle_post():
 
 def blockchainLoaded(args):
     print("**** Initializing Flask (HTTP) server ...")
-    app.run(host="127.0.0.1", port=ARMORY_UTXSVR_PORT_MAINNET if not is_testnet else ARMORY_UTXSVR_PORT_TESTNET, threaded=True)
+    app.run(host="127.0.0.1", port=config.DEFAULT_PORT_MAINNET if not is_testnet else config.DEFAULT_PORT_TESTNET, threaded=True)
     print("**** Ready to serve ...")
 
 
