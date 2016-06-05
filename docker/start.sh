@@ -13,5 +13,5 @@ fi
 : ${BITCOIND_URL:=$DEFAULT_BITCOIN_URL}
 
 # bitcoind_url must be passed in as first argument
-DISPLAY=localhost:1.0 xvfb-run --auto-servernum /usr/local/bin/armory_utxsvr ${EXTRA_PARAMS} $BITCOIND_URL
+BITCOIND_PATH=${BITCOIND_PATH} DISPLAY=localhost:1.0 xvfb-run --auto-servernum /usr/local/bin/armory_utxsvr ${EXTRA_PARAMS} $BITCOIND_URL
 
