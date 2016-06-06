@@ -43,6 +43,13 @@ def call_rpc(method, params):
     raise Exception("API request got error response: %s" % response_json)
 
 
+def clean_url_for_log(url):
+    m = re.match('.+://(.+)@', url)
+    if m and m.group(1):
+        url = url.replace(m.group(1), 'XXXXXXXX')
+    return url
+
+
 @dispatcher.add_method
 def serialize_unsigned_tx(unsigned_tx_hex, public_key_hex):
     print(("REQUEST(serialize_unsigned_tx) -- unsigned_tx_hex: '%s', public_key_hex: '%s'" % (
@@ -123,15 +130,18 @@ def main():
     global is_testnet, bitcoind_url
 
     print("**** Starting up ...")
-    print("BITCOIND_PATH: {}".format(BITCOIND_PATH))
     parser = argparse.ArgumentParser(description='Armory offline transaction generator daemon')
     parser.add_argument('--testnet', action='store_true', help='Run for testnet')
     parser.add_argument('bitcoind_url', help='bitcoind RPC endpoint URL, e.g. "http://rpc:rpcpass@localhost:8332"')
     parser_args = parser.parse_args()
 
-    btcdir = os.path.join(BITCOIND_PATH, "/testnet3" if parser_args.testnet else '')
+    btcdir = os.path.join(BITCOIND_PATH, "testnet3" if parser_args.testnet else '')
     is_testnet = parser_args.testnet
     bitcoind_url = parser_args.bitcoind_url
+
+    print("BITCOIND_PATH: {}".format(BITCOIND_PATH))
+    print("ARMORY btcdir: {}".format(btcdir))
+    print("BITCOIND_URL: {}".format(clean_url_for_log(bitcoind_url)))
 
     print("**** Initializing armory ...")
     # require armory to be installed, adding the configured armory path to PYTHONPATH
