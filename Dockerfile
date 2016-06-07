@@ -17,11 +17,10 @@ RUN mkdir /root/.armory
 # Bitcoin datadir must be mounted in the container as /root/bitcoin_data`
 RUN mkdir /bitcoin_data
     
-# Install (using the `develop` command to symlink back to the source dir for easy editing)
+# Install (pip will effectively run `setup.py develop` for us)
 COPY . /armory_utxsvr
 WORKDIR /armory_utxsvr
 RUN pip2 install -r requirements.txt
-RUN python2 setup.py develop
 
 COPY docker/start.sh /usr/local/bin/start.sh
 RUN chmod a+x /usr/local/bin/start.sh
