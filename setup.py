@@ -5,7 +5,7 @@ import os
 import sys
 import logging
 
-from armory_utxsvr import config
+from armoryutxsvr import config
 
 required_packages = [
     'appdirs',
@@ -16,7 +16,7 @@ required_packages = [
 ]
 
 setup_options = {
-    'name': 'armory_utxsvr',
+    'name': 'armory-utxsvr',
     'version': config.VERSION,
     'author': 'Counterparty Developers',
     'author_email': 'support@counterparty.io',
@@ -26,12 +26,12 @@ setup_options = {
     'license': 'MIT',
     'description': 'armory UTXsvr',
     'long_description': 'Provides a JSON RPC interface to armory for production and signing of offline transactions',
-    'keywords': 'counterparty, bitcoin, armory, armory_utxsvr',
+    'keywords': 'counterparty, bitcoin, armory, armory-utxsvr',
     'classifiers': [
       "Programming Language :: Python",
     ],
-    'download_url': 'https://github.com/CounterpartyXCP/armory_utxsvr/releases/tag/%s' % config.VERSION,
-    'provides': ['armory_utxsvr'],
+    'download_url': 'https://github.com/CounterpartyXCP/armory-utxsvr/releases/tag/%s' % config.VERSION,
+    'provides': ['armoryutxsvr'],
     'packages': find_packages(),
     'zip_safe': False,
     'setup_requires': ['appdirs'],
@@ -39,7 +39,7 @@ setup_options = {
     'include_package_data': True,
     'entry_points': {
         'console_scripts': [
-            'armory_utxsvr = armory_utxsvr:server_main',
+            'armory-utxsvr = armoryutxsvr:server_main',
         ]
     },
 }

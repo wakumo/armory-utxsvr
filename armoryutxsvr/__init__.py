@@ -2,5 +2,5 @@ import os
 import sys
 
 def server_main():
-    from armory_utxsvr import server
+    from armoryutxsvr import server
     server.main()

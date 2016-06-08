@@ -18,8 +18,8 @@ RUN mkdir /root/.armory
 RUN mkdir /bitcoin_data
     
 # Install (pip will effectively run `setup.py develop` for us)
-COPY . /armory_utxsvr
-WORKDIR /armory_utxsvr
+COPY . /armory-utxsvr
+WORKDIR /armory-utxsvr
 RUN pip2 install -r requirements.txt
 
 COPY docker/start.sh /usr/local/bin/start.sh

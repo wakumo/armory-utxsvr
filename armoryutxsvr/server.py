@@ -20,7 +20,7 @@ from flask import request
 import jsonrpc
 from jsonrpc import dispatcher
 
-from armory_utxsvr import config
+from armoryutxsvr import config
 
 sys.path.append("/usr/lib/armory/")
 from armoryengine.ALL import *
