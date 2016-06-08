@@ -8,11 +8,10 @@ import logging
 from armoryutxsvr import config
 
 required_packages = [
-    'appdirs',
-    'flask',
-    'json-rpc',
-    'pytest',
-    'requests'
+    'flask==0.11.1',
+    'json-rpc==1.10.3',
+    'pytest==2.9.2',
+    'requests==2.10.0'
 ]
 
 setup_options = {
@@ -34,7 +33,6 @@ setup_options = {
     'provides': ['armoryutxsvr'],
     'packages': find_packages(),
     'zip_safe': False,
-    'setup_requires': ['appdirs'],
     'install_requires': required_packages,
     'include_package_data': True,
     'entry_points': {
