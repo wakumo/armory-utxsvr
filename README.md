@@ -3,7 +3,8 @@
 armory_utxsvr
 ==============
 
-This daemon provides Armory offline Transactions support for Counterwallet/Counterblock (but can be used for other services as well).
+A daemon that provides Armory offline Transactions crafting and signing as an API service.
+Used on the Counterparty project for `counterblock`/`counterwallet`, but is general enough to be used for other projects as well.
 
 # Installation
 
