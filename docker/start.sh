@@ -2,6 +2,11 @@
 
 export BITCOIND_PATH=${BITCOIND_PATH:="/bitcoin_data"}
 
+# Run "setup.py develop" if we need to
+if [ ! -d /armory-utxsvr/armory_utxsvr.egg-info ]; then
+    cd /armory-utxsvr; python2 setup.py develop; cd /
+fi
+
 # Specify defaults (defaults are overridden if defined in the environment)
 EXTRA_PARAMS=""
 DEFAULT_BITCOIN_URL="http://rpc:rpc@bitcoin:8332"
