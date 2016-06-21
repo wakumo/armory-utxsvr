@@ -26,6 +26,7 @@ sys.path.append("/usr/lib/armory/")
 from armoryengine.ALL import *
 
 BITCOIND_PATH = "/root/.bitcoin/" if not os.environ.get('BITCOIND_PATH', '') else os.environ['BITCOIND_PATH']
+RPC_HOST = "127.0.0.1" if not os.environ.get('RPC_HOST', '') else os.environ['RPC_HOST']
 
 app = flask.Flask(__name__)
 is_testnet = False
@@ -119,7 +120,7 @@ def handle_post():
 
 def blockchainLoaded(args):
     print("**** Initializing Flask (HTTP) server ...")
-    app.run(host="127.0.0.1", port=config.DEFAULT_PORT_MAINNET if not is_testnet else config.DEFAULT_PORT_TESTNET, threaded=True)
+    app.run(host=RPC_HOST, port=config.DEFAULT_PORT_MAINNET if not is_testnet else config.DEFAULT_PORT_TESTNET, threaded=True)
     print("**** Ready to serve ...")
 
 
@@ -143,6 +144,7 @@ def main():
     print("BITCOIND_PATH: {}".format(BITCOIND_PATH))
     print("ARMORY btcdir: {}".format(btcdir))
     print("BITCOIND_URL: {}".format(clean_url_for_log(bitcoind_url)))
+    print("RPC_HOST: {}".format(RPC_HOST))
 
     print("**** Initializing armory ...")
     # require armory to be installed, adding the configured armory path to PYTHONPATH
