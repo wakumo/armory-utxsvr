@@ -1,29 +1,32 @@
-#! /usr/bin/env python3
+#! /usr/bin/env python2
 """
 server for creating unsigned armory offline transactions
+
+NOTE: this is still python2 because armoryengine is python2
 """
 import os
 import sys
+import re
 import logging
 import argparse
 import json
 import time
 import threading
-import requests
 import datetime
 
+import requests
 import flask
 from flask import request
 import jsonrpc
 from jsonrpc import dispatcher
 
+from armoryutxsvr import config
+
 sys.path.append("/usr/lib/armory/")
 from armoryengine.ALL import *
 
-ARMORY_UTXSVR_PORT_MAINNET = 6590
-ARMORY_UTXSVR_PORT_TESTNET = 6591
-
-BITCOIND_PATH = os.environ.get('BITCOIND_PATH', "/root/.bitcoin/")
+BITCOIND_PATH = "/root/.bitcoin/" if not os.environ.get('BITCOIND_PATH', '') else os.environ['BITCOIND_PATH']
+RPC_HOST = "127.0.0.1" if not os.environ.get('RPC_HOST', '') else os.environ['RPC_HOST']
 
 app = flask.Flask(__name__)
 is_testnet = False
@@ -40,6 +43,13 @@ def call_rpc(method, params):
     if 'error' not in list(response_json.keys()) or response_json['error'] is None:
         return response_json['result']
     raise Exception("API request got error response: %s" % response_json)
+
+
+def clean_url_for_log(url):
+    m = re.match('.+://(.+)@', url)
+    if m and m.group(1):
+        url = url.replace(m.group(1), 'XXXXXXXX')
+    return url
 
 
 @dispatcher.add_method
@@ -110,7 +120,7 @@ def handle_post():
 
 def blockchainLoaded(args):
     print("**** Initializing Flask (HTTP) server ...")
-    app.run(host="127.0.0.1", port=ARMORY_UTXSVR_PORT_MAINNET if not is_testnet else ARMORY_UTXSVR_PORT_TESTNET, threaded=True)
+    app.run(host=RPC_HOST, port=config.DEFAULT_PORT_MAINNET if not is_testnet else config.DEFAULT_PORT_TESTNET, threaded=True)
     print("**** Ready to serve ...")
 
 
@@ -127,9 +137,14 @@ def main():
     parser.add_argument('bitcoind_url', help='bitcoind RPC endpoint URL, e.g. "http://rpc:rpcpass@localhost:8332"')
     parser_args = parser.parse_args()
 
-    btcdir = os.path.join(BITCOIND_PATH, "/testnet3" if parser_args.testnet else '')
+    btcdir = os.path.join(BITCOIND_PATH, "testnet3" if parser_args.testnet else '')
     is_testnet = parser_args.testnet
     bitcoind_url = parser_args.bitcoind_url
+
+    print("BITCOIND_PATH: {}".format(BITCOIND_PATH))
+    print("ARMORY btcdir: {}".format(btcdir))
+    print("BITCOIND_URL: {}".format(clean_url_for_log(bitcoind_url)))
+    print("RPC_HOST: {}".format(RPC_HOST))
 
     print("**** Initializing armory ...")
     # require armory to be installed, adding the configured armory path to PYTHONPATH
