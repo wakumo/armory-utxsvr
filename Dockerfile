@@ -6,9 +6,9 @@ MAINTAINER Counterparty Developers <dev@counterparty.io>
 RUN apt-get update && apt-get -y install python python-pip
 
 # Download and install armory
-ENV ARMORY_VER="0.93.3_ubuntu-64bit"
+ENV ARMORY_VER="0.95_amd64"
 RUN apt-get update && apt-get -y install xvfb python-qt4 python-twisted python-psutil xdg-utils hicolor-icon-theme
-RUN wget -O /tmp/armory.deb https://github.com/goatpig/BitcoinArmory/releases/download/v0.93.3/armory_${ARMORY_VER}.deb
+RUN wget -O /tmp/armory.deb https://github.com/goatpig/BitcoinArmory/releases/download/v0.95.0/armory_${ARMORY_VER}.deb
 # bug fix (see http://askubuntu.com/a/406015)
 RUN mkdir -p /usr/share/desktop-directories/
 RUN dpkg -i /tmp/armory.deb && rm /tmp/armory.deb
